@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCircle - Virtual Mental Wellness Groups</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mindcircle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">MindCircle</div>
+            <ul class="nav-links">
+                <li><a href="#discover">Discover Groups</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#community">Community</a></li>
+                <li><a href="#activities">Activities</a></li>
+                <li><a href="#profile">My Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="hero-content">
+                <h1>Connect. Heal. Grow together.</h1>
+                <p>Join safe, supportive virtual groups for mental wellness and genuine connections</p>
+                <button class="cta-button">Find Your Group</button>
+            </div>
+        </section>
+
+        <section id="discover" class="discover">
+            <h2>Discover Groups</h2>
+            <div class="filters">
+                <select id="category-filter">
+                    <option value="">All Categories</option>
+                    <option value="mental-wellness">Mental Wellness</option>
+                    <option value="meditation">Meditation</option>
+                    <option value="art-therapy">Art Therapy</option>
+                    <option value="book-club">Book Club</option>
+                    <option value="journaling">Journaling</option>
+                    <option value="support">Support Groups</option>
+                </select>
+                <select id="age-filter">
+                    <option value="">All Ages</option>
+                    <option value="seniors">Seniors</option>
+                    <option value="adults">Adults</option>
+                    <option value="youth">Youth</option>
+                </select>
+                <select id="timezone-filter">
+                    <option value="">All Time Zones</option>
+                    <option value="est">Eastern Time</option>
+                    <option value="pst">Pacific Time</option>
+                    <option value="gmt">GMT</option>
+                </select>
+            </div>
+            <div class="group-grid">
+                <!-- Group cards will be dynamically populated -->
+            </div>
+        </section>
+
+        <section id="events" class="events">
+            <h2>Upcoming Events</h2>
+            <div class="event-calendar">
+                <div class="calendar-header">
+                    <button class="prev-month"><i class="fas fa-chevron-left"></i></button>
+                    <h3>March 2024</h3>
+                    <button class="next-month"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="event-list">
+                    <!-- Events will be dynamically populated -->
+                </div>
+            </div>
+        </section>
+
+        <section id="community" class="community">
+            <h2>Community Lounge</h2>
+            <div class="chat-rooms">
+                <div class="room-categories">
+                    <button class="active">General</button>
+                    <button>Anxiety Support</button>
+                    <button>Depression Support</button>
+                    <button>Grief & Loss</button>
+                    <button>Wellness Tips</button>
+                </div>
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <h3>Community Chat</h3>
+                        <button class="close-chat" aria-label="Close chat">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="chat-messages">
+                        <!-- Messages will be dynamically populated -->
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" placeholder="Type your message...">
+                        <button>Send</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="activities" class="activities">
+            <h2>Creative Activities</h2>
+            <div class="activity-grid">
+                <div class="activity-card">
+                    <i class="fas fa-paint-brush"></i>
+                    <h3>Collaborative Art</h3>
+                    <p>Join others in creating beautiful artwork together</p>
+                    <a href="collab-art.html" class="activity-button">Start Drawing</a>
+                </div>
+                <div class="activity-card">
+                    <i class="fas fa-pen"></i>
+                    <h3>Writing Prompts</h3>
+                    <p>Express yourself through guided writing exercises</p>
+                    <a href="writing-prompts.html" class="activity-button">Start Writing</a>
+                </div>
+                <div class="activity-card">
+                    <i class="fas fa-smile"></i>
+                    <h3>Mood Board</h3>
+                    <p>Create visual representations of your feelings</p>
+                    <a href="mood-board.html" class="activity-button">Create Board</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="profile" class="profile">
+            <h2>My Profile</h2>
+            <div class="profile-container">
+                <div class="profile-info">
+                    <div class="avatar">
+                        <img src="default-avatar.png" alt="Profile Picture">
+                        <button>Change Photo</button>
+                    </div>
+                    <div class="user-details">
+                        <h3>Welcome, User!</h3>
+                        <p>Member since: March 2024</p>
+                    </div>
+                </div>
+                <div class="interests">
+                    <h3>My Interests</h3>
+                    <div class="interest-tags">
+                        <span class="tag">Meditation</span>
+                        <span class="tag">Art Therapy</span>
+                        <span class="tag">Journaling</span>
+                        <button class="add-interest">+ Add Interest</button>
+                    </div>
+                </div>
+                <div class="activity-stats">
+                    <h3>My Activity</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-users"></i>
+                            <h4>Sessions Attended</h4>
+                            <p>12</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-book"></i>
+                            <h4>Journals Written</h4>
+                            <p>8</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-comments"></i>
+                            <h4>Community Posts</h4>
+                            <p>15</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>MindCircle</h4>
+                <p>Creating safe spaces for mental wellness and connection</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#discover">Discover Groups</a></li>
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#community">Community</a></li>
+                    <li><a href="#activities">Activities</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <p>Need help? Contact our support team</p>
+                <p>Email: support@mindcircle.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 MindCircle. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="mindcircle.js"></script>
+</body>
+</html> 

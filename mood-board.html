@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCircle - Mood Board</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mindcircle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .mood-board-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .mood-board-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .mood-board-header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .mood-board-header p {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .mood-board-toolbar {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-button {
+            background: none;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .board-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .board-button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .board-button:hover {
+            background-color: #357abd;
+        }
+
+        .board-button.secondary {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .board-button.secondary:hover {
+            background-color: var(--light-bg);
+        }
+
+        .mood-board-content {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .tools-panel {
+            width: 250px;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem;
+            height: fit-content;
+        }
+
+        .tools-panel h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tool-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-section h4 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .emoji-item {
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 0.5rem;
+            background-color: var(--light-bg);
+            border-radius: 5px;
+            cursor: grab;
+            transition: transform 0.2s;
+        }
+
+        .emoji-item:hover {
+            transform: scale(1.1);
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .color-item {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 5px;
+            cursor: grab;
+            transition: transform 0.2s;
+        }
+
+        .color-item:hover {
+            transform: scale(1.1);
+        }
+
+        .sticker-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .sticker-item {
+            width: 100%;
+            aspect-ratio: 1;
+            background-color: var(--light-bg);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            transition: transform 0.2s;
+        }
+
+        .sticker-item img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .sticker-item:hover {
+            transform: scale(1.1);
+        }
+
+        .image-upload {
+            margin-top: 1rem;
+        }
+
+        .image-upload input {
+            display: none;
+        }
+
+        .image-upload label {
+            display: block;
+            padding: 0.5rem;
+            background-color: var(--light-bg);
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .image-upload label:hover {
+            background-color: #e0e0e0;
+        }
+
+        .board-canvas {
+            flex: 1;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-height: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .board-canvas.dragging-over {
+            border: 2px dashed var(--primary-color);
+        }
+
+        .board-item {
+            position: absolute;
+            cursor: move;
+            user-select: none;
+        }
+
+        .board-item img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .board-item .remove-item {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #ff4444;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .board-item:hover .remove-item {
+            opacity: 1;
+        }
+
+        .mood-themes {
+            margin-top: 1.5rem;
+        }
+
+        .theme-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .theme-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .theme-option:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-option.active {
+            border: 2px solid var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .mood-board-content {
+                flex-direction: column;
+            }
+
+            .tools-panel {
+                width: 100%;
+            }
+
+            .board-canvas {
+                min-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="mood-board-container">
+        <div class="mood-board-header">
+            <h1>🎨 Mood Board</h1>
+            <p>Express your emotions visually through colors, emojis, and images</p>
+        </div>
+        
+        <div class="mood-board-toolbar">
+            <button class="back-button" onclick="window.location.href='mindcircle.html#activities'">
+                <i class="fas fa-arrow-left"></i> Back to Activities
+            </button>
+            <div class="board-actions">
+                <button class="board-button secondary" id="clear-board">
+                    <i class="fas fa-trash"></i> Clear Board
+                </button>
+                <button class="board-button" id="save-board">
+                    <i class="fas fa-save"></i> Save Board
+                </button>
+                <button class="board-button" id="download-board">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            </div>
+        </div>
+        
+        <div class="mood-board-content">
+            <div class="tools-panel">
+                <h3>Tools</h3>
+                
+                <div class="tool-section">
+                    <h4>Emojis</h4>
+                    <div class="emoji-grid">
+                        <div class="emoji-item" draggable="true" data-type="emoji">😊</div>
+                        <div class="emoji-item" draggable="true" data-type="emoji">😌</div>
+                        <div class="emoji-item" draggable="true" data-type="emoji">😐</div>
+                        <div class="emoji-item" draggable="true" data-type="emoji">😰</div>
+                        <div class="emoji-item" draggable="true" data-type="emoji">😢</div>
+                        <div class="emoji-item" draggable="true" data-type="emoji">😠</div>
+                        <div class="emoji-item" draggable="true" data-type="emoji">❤️</div>
+                        <div class="emoji-item" draggable="true" data-type="emoji">🌈</div>
+                        <div class="emoji-item" draggable="true" data-type="emoji">🌞</div>
+                        <div class="emoji-item" draggable="true" data-type="emoji">🌙</div>
+                        <div class="emoji-item" draggable="true" data-type="emoji">🌸</div>
+                        <div class="emoji-item" draggable="true" data-type="emoji">🍀</div>
+                    </div>
+                </div>
+                
+                <div class="tool-section">
+                    <h4>Colors</h4>
+                    <div class="color-palette">
+                        <div class="color-item" style="background-color: #FF6B6B;" draggable="true" data-type="color" data-color="#FF6B6B"></div>
+                        <div class="color-item" style="background-color: #4ECDC4;" draggable="true" data-type="color" data-color="#4ECDC4"></div>
+                        <div class="color-item" style="background-color: #FFE66D;" draggable="true" data-type="color" data-color="#FFE66D"></div>
+                        <div class="color-item" style="background-color: #6A0572;" draggable="true" data-type="color" data-color="#6A0572"></div>
+                        <div class="color-item" style="background-color: #AB83A1;" draggable="true" data-type="color" data-color="#AB83A1"></div>
+                        <div class="color-item" style="background-color: #F9C74F;" draggable="true" data-type="color" data-color="#F9C74F"></div>
+                        <div class="color-item" style="background-color: #90BE6D;" draggable="true" data-type="color" data-color="#90BE6D"></div>
+                        <div class="color-item" style="background-color: #F94144;" draggable="true" data-type="color" data-color="#F94144"></div>
+                    </div>
+                </div>
+                
+                <div class="tool-section">
+                    <h4>Stickers</h4>
+                    <div class="sticker-grid">
+                        <div class="sticker-item" draggable="true" data-type="sticker">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1785/1785210.png" alt="Heart">
+                        </div>
+                        <div class="sticker-item" draggable="true" data-type="sticker">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1785/1785211.png" alt="Star">
+                        </div>
+                        <div class="sticker-item" draggable="true" data-type="sticker">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1785/1785212.png" alt="Flower">
+                        </div>
+                        <div class="sticker-item" draggable="true" data-type="sticker">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1785/1785213.png" alt="Sun">
+                        </div>
+                        <div class="sticker-item" draggable="true" data-type="sticker">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1785/1785214.png" alt="Moon">
+                        </div>
+                        <div class="sticker-item" draggable="true" data-type="sticker">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1785/1785215.png" alt="Cloud">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-section">
+                    <h4>Upload Image</h4>
+                    <div class="image-upload">
+                        <label for="image-input">
+                            <i class="fas fa-upload"></i> Choose Image
+                        </label>
+                        <input type="file" id="image-input" accept="image/*">
+                    </div>
+                </div>
+                
+                <div class="tool-section">
+                    <h4>Background Theme</h4>
+                    <div class="theme-options">
+                        <div class="theme-option" style="background-color: #ffffff;" data-theme="light"></div>
+                        <div class="theme-option" style="background-color: #f5f5f5;" data-theme="light-gray"></div>
+                        <div class="theme-option" style="background-color: #e8f4f8;" data-theme="light-blue"></div>
+                        <div class="theme-option" style="background-color: #f8e8e8;" data-theme="light-pink"></div>
+                        <div class="theme-option" style="background-color: #e8f8e8;" data-theme="light-green"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="board-canvas" id="board-canvas">
+                <!-- Board items will be added here -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const boardCanvas = document.getElementById('board-canvas');
+            const clearBoardBtn = document.getElementById('clear-board');
+            const saveBoardBtn = document.getElementById('save-board');
+            const downloadBoardBtn = document.getElementById('download-board');
+            const imageInput = document.getElementById('image-input');
+            const themeOptions = document.querySelectorAll('.theme-option');
+            
+            // Draggable items
+            const draggableItems = document.querySelectorAll('[draggable="true"]');
+            
+            // Initialize board
+            let boardItems = [];
+            let activeTheme = 'light';
+            
+            // Set initial theme
+            themeOptions[0].classList.add('active');
+            
+            // Theme selection
+            themeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const theme = this.getAttribute('data-theme');
+                    boardCanvas.style.backgroundColor = this.style.backgroundColor;
+                    
+                    // Update active theme
+                    themeOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    activeTheme = theme;
+                });
+            });
+            
+            // Drag and drop functionality
+            draggableItems.forEach(item => {
+                item.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', JSON.stringify({
+                        type: this.getAttribute('data-type'),
+                        content: this.innerHTML,
+                        color: this.getAttribute('data-color'),
+                        src: this.querySelector('img') ? this.querySelector('img').src : null
+                    }));
+                });
+            });
+            
+            boardCanvas.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragging-over');
+            });
+            
+            boardCanvas.addEventListener('dragleave', function() {
+                this.classList.remove('dragging-over');
+            });
+            
+            boardCanvas.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragging-over');
+                
+                const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                addItemToBoard(data, x, y);
+            });
+            
+            // Add item to board
+            function addItemToBoard(data, x, y) {
+                const item = document.createElement('div');
+                item.className = 'board-item';
+                item.style.left = x + 'px';
+                item.style.top = y + 'px';
+                
+                // Set content based on type
+                if (data.type === 'emoji') {
+                    item.innerHTML = data.content;
+                    item.style.fontSize = '2rem';
+                } else if (data.type === 'color') {
+                    item.style.width = '50px';
+                    item.style.height = '50px';
+                    item.style.backgroundColor = data.color;
+                    item.style.borderRadius = '5px';
+                } else if (data.type === 'sticker') {
+                    const img = document.createElement('img');
+                    img.src = data.src;
+                    img.style.width = '50px';
+                    img.style.height = '50px';
+                    item.appendChild(img);
+                }
+                
+                // Add remove button
+                const removeBtn = document.createElement('div');
+                removeBtn.className = 'remove-item';
+                removeBtn.innerHTML = '×';
+                removeBtn.addEventListener('click', function() {
+                    boardCanvas.removeChild(item);
+                });
+                item.appendChild(removeBtn);
+                
+                // Make item draggable
+                item.draggable = true;
+                item.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', '');
+                });
+                
+                item.addEventListener('drag', function(e) {
+                    if (e.clientX === 0 && e.clientY === 0) return; // Ignore invalid positions
+                    this.style.left = (e.clientX - rect.left) + 'px';
+                    this.style.top = (e.clientY - rect.top) + 'px';
+                });
+                
+                boardCanvas.appendChild(item);
+                boardItems.push(item);
+            }
+            
+            // Image upload
+            imageInput.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(event) {
+                        const rect = boardCanvas.getBoundingClientRect();
+                        const x = rect.width / 2 - 100;
+                        const y = rect.height / 2 - 100;
+                        
+                        addItemToBoard({
+                            type: 'image',
+                            src: event.target.result
+                        }, x, y);
+                    };
+                    
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+            
+            // Clear board
+            clearBoardBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to clear the board?')) {
+                    boardItems.forEach(item => {
+                        boardCanvas.removeChild(item);
+                    });
+                    boardItems = [];
+                }
+            });
+            
+            // Save board
+            saveBoardBtn.addEventListener('click', function() {
+                alert('Your mood board has been saved!');
+            });
+            
+            // Download board
+            downloadBoardBtn.addEventListener('click', function() {
+                alert('Your mood board has been downloaded!');
+                // In a real implementation, this would use html2canvas or similar to capture the board as an image
+            });
+        });
+    </script>
+</body>
+</html> 

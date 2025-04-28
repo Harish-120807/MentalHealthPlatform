@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCircle - Writing Prompts</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mindcircle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .writing-space {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .writing-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .writing-header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .writing-header p {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .prompt-container {
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .toolbar {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toolbar h2 {
+            color: var(--white);
+            margin: 0;
+        }
+
+        .back-button {
+            background: none;
+            border: 2px solid var(--white);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: var(--white);
+            color: var(--primary-color);
+        }
+
+        .prompt-content {
+            padding: 2rem;
+        }
+
+        .prompt-card {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .prompt-card h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .prompt-card p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .prompt-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .prompt-button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .prompt-button:hover {
+            background-color: #357abd;
+        }
+
+        .prompt-button.secondary {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .prompt-button.secondary:hover {
+            background-color: var(--light-bg);
+        }
+
+        .writing-area {
+            margin-top: 1.5rem;
+        }
+
+        .writing-area textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .writing-area textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+        .mood-tracker {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: var(--light-bg);
+            border-radius: 8px;
+        }
+
+        .mood-tracker h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .mood-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mood-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .mood-option:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .mood-option.selected {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        .mood-option i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mood-option span {
+            font-size: 0.9rem;
+        }
+
+        .mood-option[data-mood="happy"] i {
+            color: #ffc107;
+        }
+
+        .mood-option[data-mood="calm"] i {
+            color: #28a745;
+        }
+
+        .mood-option[data-mood="neutral"] i {
+            color: #6c757d;
+        }
+
+        .mood-option[data-mood="anxious"] i {
+            color: #fd7e14;
+        }
+
+        .mood-option[data-mood="sad"] i {
+            color: #17a2b8;
+        }
+
+        .mood-option[data-mood="angry"] i {
+            color: #dc3545;
+        }
+
+        .mood-comparison {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
+        .mood-before, .mood-after {
+            flex: 1;
+            text-align: center;
+        }
+
+        .mood-before h4, .mood-after h4 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .mood-display {
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .action-button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .action-button:hover {
+            background-color: #357abd;
+        }
+
+        .action-button.secondary {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .action-button.secondary:hover {
+            background-color: var(--light-bg);
+        }
+
+        @media (max-width: 768px) {
+            .writing-space {
+                padding: 1rem;
+            }
+
+            .writing-header h1 {
+                font-size: 2rem;
+            }
+
+            .prompt-content {
+                padding: 1rem;
+            }
+
+            .mood-options {
+                justify-content: center;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .action-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="writing-space">
+        <div class="writing-header">
+            <h1>📝 Writing Prompts</h1>
+            <p>Express yourself through guided writing exercises. Reflect, release, and grow.</p>
+        </div>
+        
+        <div class="prompt-container">
+            <div class="toolbar">
+                <h2>Daily Prompt</h2>
+                <button class="back-button" onclick="window.location.href='mindcircle.html#activities'">
+                    <i class="fas fa-arrow-left"></i> Back to Activities
+                </button>
+            </div>
+            
+            <div class="prompt-content">
+                <div class="prompt-card">
+                    <h3>Today's Prompt</h3>
+                    <p>Describe a moment when you felt truly proud of yourself. What happened, how did it feel, and what did you learn from that experience?</p>
+                    <div class="prompt-actions">
+                        <button class="prompt-button" id="new-prompt">
+                            <i class="fas fa-sync-alt"></i> New Prompt
+                        </button>
+                        <button class="prompt-button secondary" id="save-prompt">
+                            <i class="fas fa-bookmark"></i> Save Prompt
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="writing-area">
+                    <textarea id="writing-response" placeholder="Start writing your response here..."></textarea>
+                </div>
+                
+                <div class="mood-tracker">
+                    <h3>Mood Tracker</h3>
+                    <p>How are you feeling before and after writing?</p>
+                    
+                    <div class="mood-comparison">
+                        <div class="mood-before">
+                            <h4>Before Writing</h4>
+                            <div class="mood-options">
+                                <div class="mood-option" data-mood="happy">
+                                    <i class="fas fa-smile"></i>
+                                    <span>Happy</span>
+                                </div>
+                                <div class="mood-option" data-mood="calm">
+                                    <i class="fas fa-peace"></i>
+                                    <span>Calm</span>
+                                </div>
+                                <div class="mood-option" data-mood="neutral">
+                                    <i class="fas fa-meh"></i>
+                                    <span>Neutral</span>
+                                </div>
+                                <div class="mood-option" data-mood="anxious">
+                                    <i class="fas fa-worried"></i>
+                                    <span>Anxious</span>
+                                </div>
+                                <div class="mood-option" data-mood="sad">
+                                    <i class="fas fa-sad-tear"></i>
+                                    <span>Sad</span>
+                                </div>
+                                <div class="mood-option" data-mood="angry">
+                                    <i class="fas fa-angry"></i>
+                                    <span>Angry</span>
+                                </div>
+                            </div>
+                            <div class="mood-display" id="mood-before-display">😐</div>
+                        </div>
+                        
+                        <div class="mood-after">
+                            <h4>After Writing</h4>
+                            <div class="mood-options">
+                                <div class="mood-option" data-mood="happy">
+                                    <i class="fas fa-smile"></i>
+                                    <span>Happy</span>
+                                </div>
+                                <div class="mood-option" data-mood="calm">
+                                    <i class="fas fa-peace"></i>
+                                    <span>Calm</span>
+                                </div>
+                                <div class="mood-option" data-mood="neutral">
+                                    <i class="fas fa-meh"></i>
+                                    <span>Neutral</span>
+                                </div>
+                                <div class="mood-option" data-mood="anxious">
+                                    <i class="fas fa-worried"></i>
+                                    <span>Anxious</span>
+                                </div>
+                                <div class="mood-option" data-mood="sad">
+                                    <i class="fas fa-sad-tear"></i>
+                                    <span>Sad</span>
+                                </div>
+                                <div class="mood-option" data-mood="angry">
+                                    <i class="fas fa-angry"></i>
+                                    <span>Angry</span>
+                                </div>
+                            </div>
+                            <div class="mood-display" id="mood-after-display">😐</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-button secondary" id="download-button">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                    <button class="action-button" id="save-journal-button">
+                        <i class="fas fa-save"></i> Save to Journal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample prompts
+            const prompts = [
+                "Describe a moment when you felt truly proud of yourself. What happened, how did it feel, and what did you learn from that experience?",
+                "Write about a challenge you've overcome. What strategies did you use, and how did it change you?",
+                "If you could give advice to your past self, what would you say?",
+                "Describe your ideal day from start to finish. What makes it perfect for you?",
+                "Write about a person who has influenced you positively. What qualities do you admire in them?",
+                "Describe a place where you feel most at peace. What sensory details make it special?",
+                "Write a letter to your future self. What hopes, dreams, and advice would you include?",
+                "Describe a small moment of joy you experienced recently. What made it meaningful?",
+                "Write about a time when you felt misunderstood. How did you handle it?",
+                "If you could master any skill instantly, what would it be and why?"
+            ];
+            
+            // Elements
+            const promptText = document.querySelector('.prompt-card p');
+            const newPromptButton = document.getElementById('new-prompt');
+            const savePromptButton = document.getElementById('save-prompt');
+            const writingResponse = document.getElementById('writing-response');
+            const downloadButton = document.getElementById('download-button');
+            const saveJournalButton = document.getElementById('save-journal-button');
+            const moodOptions = document.querySelectorAll('.mood-option');
+            const moodBeforeDisplay = document.getElementById('mood-before-display');
+            const moodAfterDisplay = document.getElementById('mood-after-display');
+            
+            // Mood emoji mapping
+            const moodEmojis = {
+                'happy': '😊',
+                'calm': '😌',
+                'neutral': '😐',
+                'anxious': '😰',
+                'sad': '😢',
+                'angry': '😠'
+            };
+            
+            // Get random prompt
+            function getRandomPrompt() {
+                const randomIndex = Math.floor(Math.random() * prompts.length);
+                return prompts[randomIndex];
+            }
+            
+            // New prompt button
+            newPromptButton.addEventListener('click', function() {
+                promptText.textContent = getRandomPrompt();
+            });
+            
+            // Save prompt button
+            savePromptButton.addEventListener('click', function() {
+                alert('Prompt saved to your favorites!');
+            });
+            
+            // Mood selection
+            moodOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove selected class from siblings
+                    const siblings = this.parentElement.querySelectorAll('.mood-option');
+                    siblings.forEach(sib => sib.classList.remove('selected'));
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    
+                    // Update mood display
+                    const mood = this.getAttribute('data-mood');
+                    const emoji = moodEmojis[mood];
+                    
+                    // Determine if this is before or after mood
+                    if (this.parentElement.parentElement.classList.contains('mood-before')) {
+                        moodBeforeDisplay.textContent = emoji;
+                    } else {
+                        moodAfterDisplay.textContent = emoji;
+                    }
+                });
+            });
+            
+            // Download button
+            downloadButton.addEventListener('click', function() {
+                const text = writingResponse.value;
+                const prompt = promptText.textContent;
+                const beforeMood = moodBeforeDisplay.textContent;
+                const afterMood = moodAfterDisplay.textContent;
+                
+                const content = `Prompt: ${prompt}\n\nResponse:\n${text}\n\nMood Before: ${beforeMood}\nMood After: ${afterMood}\n\nDate: ${new Date().toLocaleDateString()}`;
+                
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'writing-response.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+            
+            // Save to journal button
+            saveJournalButton.addEventListener('click', function() {
+                alert('Your writing has been saved to your journal!');
+            });
+        });
+    </script>
+</body>
+</html> 

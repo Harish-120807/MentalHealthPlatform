@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCircle - Collaborative Art Space</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="mindcircle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .art-space {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .art-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .art-header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .art-header p {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .drawing-container {
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .toolbar {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toolbar h2 {
+            color: var(--white);
+            margin: 0;
+        }
+
+        .back-button {
+            background: none;
+            border: 2px solid var(--white);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: var(--white);
+            color: var(--primary-color);
+        }
+
+        iframe {
+            display: block;
+            width: 100%;
+            height: 80vh;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .art-space {
+                padding: 1rem;
+            }
+
+            .art-header h1 {
+                font-size: 2rem;
+            }
+
+            iframe {
+                height: 70vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="art-space">
+        <div class="art-header">
+            <h1>🎨 Collaborative Art Space</h1>
+            <p>Express yourself with friends through shared creativity. Draw, sketch, and create together in real-time.</p>
+        </div>
+        
+        <div class="drawing-container">
+            <div class="toolbar">
+                <h2>Drawing Canvas</h2>
+                <button class="back-button" onclick="window.location.href='mindcircle.html#activities'">
+                    <i class="fas fa-arrow-left"></i> Back to Activities
+                </button>
+            </div>
+            <iframe
+                src="https://excalidraw.com"
+                width="100%"
+                height="600px"
+                title="Collaborative Drawing Canvas">
+            </iframe>
+        </div>
+    </main>
+
+    <script>
+        // Handle iframe loading
+        const drawingFrame = document.querySelector('iframe');
+        drawingFrame.addEventListener('load', function() {
+            console.log('Drawing canvas loaded');
+        });
+    </script>
+</body>
+</html> 
